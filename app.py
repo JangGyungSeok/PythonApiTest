@@ -1,5 +1,8 @@
 from flask import Flask, jsonify, escape, request, render_template
 
+from PIL import Image
+from io import BytesIO
+import base64
 
 app = Flask(__name__)
 
@@ -15,9 +18,14 @@ def hello():
 
 @app.route('/testapi',methods=["POST","GET"])
 def test():
-    print("실행!!")
-    
-    return "보내준 메시지"
+    # data = request.getJson()
+    # print(data)
+    # print(request.get_data())
+    image = base64.b64decode(request.get_data())
+    im=Image.open(BytesIO(image))
+    print(im)
+    # return jsonify(message="응답 메시지")
+    return "응답메시지"
 
 @app.route('/testjson')
 def json():
